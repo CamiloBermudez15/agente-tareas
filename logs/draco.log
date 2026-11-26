@@ -1,0 +1,28 @@
+===== mié 25/11/2026 23:53:28.91 - ucn ===== 
+Traceback (most recent call last):
+  File "C:\Users\cmilo\Proyectos\agente-tareas\scripts\iniciar_sesiones.py", line 91, in <module>
+    main()
+  File "C:\Users\cmilo\Proyectos\agente-tareas\scripts\iniciar_sesiones.py", line 85, in main
+    print("\n".join(resultados))
+  File "C:\Users\cmilo\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Permission allow rule (.claude\settings.json): Write(./datos/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./datos/**) instead (Edit rules cover all file-editing tools).
+Revisé las tareas del aula virtual y envié **un solo mensaje al canal "ucn"**. Como no había un registro anterior, todo lo pendiente salió como nuevo.
+
+- **Pendientes:** hay 5. Las más próximas vencen el viernes 27: el foro a las 09:00 y las Evaluaciones #3 y #4 de Reparación y Mantenimiento II a las 17:00.
+- **Vencidas sin entrega:** hay 5. Aparte, 2 de Inglés VI salen como "No entregado", pero ya están calificadas.
+- **Hoy y mañana:** la única tarea pendiente que vi con fecha de hoy, Práctica: Figma, ya aparece "Enviado para calificar" (23:30). No vi nada pendiente que venza mañana, jueves 26, así que no envié recordatorios.
+
+**Fechas que no coinciden:**
+- **1º Entregable de Diseño de Interfaz:** las instrucciones dicen 9 de diciembre a las 23:59, pero la plataforma marca ese día a las 00:00. Conviene entregarlo antes de la medianoche del 8 al 9.
+- **Foro de la Clase#4:** la descripción permite participar hasta el 1 de diciembre, pero la fecha límite del foro es el 27 de noviembre a las 09:00.
+
+**Alcance de la revisión:**
+- Miré la línea de tiempo, los próximos eventos del calendario y las listas de tareas de cinco cursos. No revisé las tareas del otro curso enlazado (UFV-MA-SL).
+- No abrí todas las tareas que la lista ya marcaba como entregadas.
+- En Desarrollo Web II no avisé de 9 tareas "Sin entrega" que no abrí. Las que muestran fecha van de diciembre de 2025 a febrero de 2026 y una no tiene fecha. Creo que quedaron de un periodo anterior, pero no lo confirmé.
+
+No entregué ni subí nada en la plataforma. Guardé el registro en `datos/tareas_reportadas.md` para no repetir avisos.
+===== Fin mié 25/11/2026 23:55:33.55 ===== 

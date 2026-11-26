@@ -89,3 +89,34 @@ Cuando Camilo pida "hazme/ayúdame con esta tarea":
 5. Nunca pulses "Enviar", "Entregar" o "Subir tarea" sin un "APROBADO" previo.
 
 Revisar la plataforma y enviar reportes NO requiere aprobación.
+
+## Reportes automáticos de la UCN (programados)
+Revisa todas las tareas del aula virtual y, en cada una, abre la tarea y mira el
+"Estado de la entrega":
+- "Enviado para calificar" / "Entregado" = ENTREGADA.
+- "No entregado" / "Sin entrega" / "No se ha enviado nada" = PENDIENTE.
+
+Lleva un registro en `datos/tareas_reportadas.md` con: materia, nombre de la tarea,
+fecha de vencimiento, si ya se reportó como nueva y qué recordatorios ya se enviaron.
+
+Envía mensaje al canal "ucn" SOLO en estos casos:
+1. 🆕 Tarea NUEVA (no está en el registro): nombre, materia, fecha de vencimiento
+   y resumen de lo que hay que hacer.
+2. ⏰ Tarea PENDIENTE (no entregada) que vence MAÑANA: recordatorio
+   "⚠️ La tarea [nombre] de [materia] vence MAÑANA ([día y hora]) y aún NO la has entregado".
+3. 🚨 Tarea PENDIENTE que vence HOY: recordatorio urgente
+   "🚨 La tarea [nombre] vence HOY a las [hora] y aún NO la has entregado".
+4. 🔴 Tarea PENDIENTE que ya venció sin entregar: avísalo una sola vez.
+5. ❌ Error: si no pudiste entrar a la plataforma, avisa con un mensaje corto.
+
+NO envíes nada si:
+- No hay tareas nuevas ni pendientes que venzan hoy o mañana.
+- La tarea ya está ENTREGADA (no vuelvas a mencionarla).
+- Ya enviaste ese mismo recordatorio antes (revisa el registro).
+
+### Foros
+- Publicar en un foro cuenta como una entrega: requiere `pedir_aprobacion`.
+- Lee la consigna del foro y las respuestas existentes antes de redactar.
+- Si Camilo da ideas o experiencias propias, úsalas como base de la respuesta.
+- Envía el borrador COMPLETO en el resumen de `pedir_aprobacion` para que Camilo lo lea.
+- Publica solo con "APROBADO".
