@@ -1,0 +1,16 @@
+{
+  "env": {
+    "MCP_TOOL_TIMEOUT": "2400000"
+  },
+  "permissions": {
+    "allow": [
+      "mcp__draco",
+      "mcp__playwright",
+      "Read",
+      "Glob",
+      "Grep",
+      "Edit(./datos/**)",
+      "Write(./datos/**)"
+    ]
+  }
+}

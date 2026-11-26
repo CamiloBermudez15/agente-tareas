@@ -7,6 +7,8 @@ import logging
 import os
 import subprocess
 import zipfile
+import time
+import uuid
 from pathlib import Path
 
 import httpx
@@ -248,6 +250,60 @@ def convertir_pdf(ruta: str) -> str:
 # Herramientas MCP (las que usa la IA)
 # ---------------------------------------------------------------------------
 
+def pedir_aprobacion_telegram(resumen: str, canal: str = "ucn", minutos: int = 30) -> str:
+    """Envía un mensaje con botones Aprobar/Rechazar y espera la respuesta de Camilo."""
+    chat = _chat_de(canal)
+    if not TOKEN or not chat:
+        return "Error: faltan TELEGRAM_BOT_TOKEN o el chat ID en el archivo .env"
+
+    base = f"https://api.telegram.org/bot{TOKEN}"
+    identificador = uuid.uuid4().hex[:8]
+
+    # Ignora mensajes viejos: empieza a escuchar desde el último update
+    ultimos = httpx.get(f"{base}/getUpdates", params={"offset": -1}, timeout=30).json()
+    resultados = ultimos.get("result", [])
+    offset = resultados[-1]["update_id"] + 1 if resultados else 0
+
+    teclado = {
+        "inline_keyboard": [[
+            {"text": "✅ Aprobar", "callback_data": f"si:{identificador}"},
+            {"text": "❌ Rechazar", "callback_data": f"no:{identificador}"},
+        ]]
+    }
+    texto = f"🙋 Draco necesita tu aprobación:\n\n{resumen}"
+    httpx.post(
+        f"{base}/sendMessage",
+        json={"chat_id": chat, "text": texto[:4096], "reply_markup": teclado},
+        timeout=30,
+    )
+
+    limite = time.time() + minutos * 60
+    while time.time() < limite:
+        respuesta = httpx.get(
+            f"{base}/getUpdates",
+            params={"offset": offset, "timeout": 25, "allowed_updates": '["callback_query"]'},
+            timeout=40,
+        ).json()
+
+        for update in respuesta.get("result", []):
+            offset = update["update_id"] + 1
+            boton = update.get("callback_query")
+            if not boton or not boton.get("data", "").endswith(identificador):
+                continue
+            # Seguridad: solo Camilo puede aprobar
+            if str(boton["from"]["id"]) != str(CHAT_ID):
+                continue
+
+            httpx.post(f"{base}/answerCallbackQuery", json={"callback_query_id": boton["id"]}, timeout=30)
+            if boton["data"].startswith("si:"):
+                enviar_mensaje("✅ Aprobado. Procedo con la entrega.", canal)
+                return "APROBADO"
+            enviar_mensaje("❌ Rechazado. No haré la entrega.", canal)
+            return "RECHAZADO"
+
+    enviar_mensaje("⏰ No respondiste a tiempo. No hice la entrega.", canal)
+    return "SIN RESPUESTA: no realices la acción"
+
 @mcp.tool()
 def enviar_telegram(mensaje: str, canal: str = "general") -> str:
     """Envía un mensaje de texto a Camilo por Telegram.
@@ -284,6 +340,15 @@ def convertir_a_pdf(ruta: str) -> str:
     """Convierte un archivo Word (.doc, .docx, .rtf) o Excel (.xls, .xlsx) a PDF
     y devuelve la ruta del PDF creado."""
     return convertir_pdf(ruta)
+
+
+@mcp.tool()
+def pedir_aprobacion(resumen: str, canal: str = "ucn", minutos: int = 30) -> str:
+    """Pide a Camilo aprobación por Telegram con botones Aprobar/Rechazar y espera su respuesta.
+    OBLIGATORIO antes de entregar o subir cualquier tarea en la plataforma de la UCN.
+    resumen: qué hiciste y qué vas a entregar.
+    Devuelve "APROBADO", "RECHAZADO" o "SIN RESPUESTA". Solo continúa si es "APROBADO"."""
+    return pedir_aprobacion_telegram(resumen, canal, minutos)
 
 
 if __name__ == "__main__":

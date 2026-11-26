@@ -77,3 +77,15 @@ Al final: total de procesos encontrados y cuántos son nuevos.
 - Nunca inventes datos. Si no pudiste leer algo, dilo.
 - Nunca muestres tokens ni contraseñas.
 EOF
+
+## Tareas de la UCN: entregar SOLO con aprobación (regla obligatoria)
+Cuando Camilo pida "hazme/ayúdame con esta tarea":
+1. Lee las instrucciones de la tarea y prepara el trabajo.
+2. ANTES de entregar o subir cualquier cosa en la plataforma, usa `pedir_aprobacion`
+   (canal "ucn") con un resumen: qué tarea es, qué hiciste y qué archivo o texto vas a entregar.
+   Si es un archivo, envíalo primero con `enviar_archivo` (canal "ucn") para que Camilo lo revise.
+3. Solo si la respuesta es "APROBADO", realiza la entrega.
+4. Si es "RECHAZADO" o "SIN RESPUESTA", NO entregues nada y avisa.
+5. Nunca pulses "Enviar", "Entregar" o "Subir tarea" sin un "APROBADO" previo.
+
+Revisar la plataforma y enviar reportes NO requiere aprobación.
