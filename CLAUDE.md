@@ -25,8 +25,29 @@ Abre el detalle de cada proceso de las entidades de interés y extrae:
 - Modalidad (compra menor, licitación, etc.)
 - Objeto: qué se va a comprar, con artículos y cantidades si aparecen
 - Fecha y hora límite para presentar ofertas
-- Descarga los documentos del proceso (pliego de bases, especificaciones, etc.)
-  y envíalos con `enviar_archivo`, con la descripción: entidad, N.º de proceso y fecha de cierre.
+
+### Solo enviar la INVITACIÓN (regla obligatoria)
+De cada proceso, envía UN SOLO archivo: la invitación.
+- La invitación es el documento que contiene: lugar de entrega, plazo de entrega
+  y la tabla de ítems/cantidades. Su nombre varía mucho ("Invitación 103/2026",
+  "Proceso N.º...", o solo un número), así que NO te guíes solo por el nombre.
+- NO envíes contratos, declaraciones, formularios, anexos ni otros archivos.
+
+Cómo identificarla:
+1. Si el portal lista los archivos por separado, descarga solo los candidatos
+   (evita los que claramente son contrato, declaración o formulario).
+2. Si la descarga es .zip o .rar, usa `extraer_comprimido`.
+3. Usa `leer_documento` en cada candidato y elige el que mencione lugar de entrega,
+   plazo de entrega y tabla de ítems.
+4. Si la invitación es Word o Excel, conviértela con `convertir_a_pdf`.
+5. Envía SOLO el PDF con `enviar_archivo`, canal "ventas", con la descripción:
+   entidad, N.º de proceso, qué buscan y fecha de cierre.
+6. Si no puedes identificar la invitación con seguridad, envía el candidato más
+   probable y avisa en el reporte: "(verificar: no estoy seguro de que sea la invitación)".
+
+### Canales de Telegram
+- Todo lo del SISCAE va al canal "ventas".
+- Todo lo de la UCN va al canal "ucn".
 
 ## Evitar repetidos
 - Lleva un registro en `datos/procesos_enviados.md` con los números de proceso cuyos archivos ya enviaste.

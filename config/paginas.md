@@ -23,6 +23,21 @@
   3. Entrar a "Proceso de compras y contrataciones"
   4. Entrar a "Procesos vigentes"
   5. En el filtro "Departamento", seleccionar cada departamento de la lista de abajo y buscar
+- **Acceso directo (Procesos vigentes, requiere sesión iniciada por Camilo):**
+  https://www.gestion.nicaraguacompra.gob.ni/siscae/portal/adquisiciones-gestion/busqueda?accion=vigente&usr_ua_id=todos
+- Página "Búsqueda de Procedimientos" (estado fijo: Vigente). Lo que contiene:
+  - Ordenar por: Institución, Unidad de Adquisición, # Proceso (defecto), Estado, Fecha de Publicación, Fecha de Cierre.
+  - Resultados por página: 10 (defecto), 25, 50, 100 → usar 100 para ver todo.
+  - Filtros: Ejercicio (2026 defecto / 2027), Nombre de la Adquisición (texto), Número de Adquisición (texto),
+    Código SIGAF (texto), Procedimiento (Todos / ORDINARIO / MATERIA EXCLUIDA),
+    Clasificación Comercial (enlace al Catálogo de Bienes y Servicios),
+    Institución (lista larga, "Todas" por defecto), Departamento (Todos, Boaco, Carazo, Chinandega, Chontales,
+    Estelí, Granada, Jinotega, León, Madriz, Managua, Masaya, Matagalpa, Nueva Segovia, RACCN, RACCS, Rio San Juan, Rivas),
+    casilla "Departamento de Lugar de Entrega", Estado: Vigente.
+  - Botones: **Buscar**, **Limpiar**; enlace "Búsqueda Avanzada".
+  - Menú superior: Inicio, Ayuda, Manuales, Noticias, Contacto, Cerrar Sesión (no usar), Mis Datos, Certificado,
+    Cambio de Clave, Buscar Proveedores, Opciones de Consulta.
+  - Aún no se ha pulsado Buscar: falta documentar la tabla de resultados y el detalle de cada proceso.
 - Qué reportar de cada proceso: número de proceso, entidad, modalidad, objeto de la compra
   (artículos y cantidades si aparecen) y fecha límite para presentar ofertas.
 - Descargar los documentos de cada proceso de interés.
