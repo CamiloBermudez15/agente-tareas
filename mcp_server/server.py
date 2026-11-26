@@ -1,9 +1,10 @@
 """
 Servidor MCP de Draco 🐉
-Permite que un agente de IA envíe mensajes por Telegram.
+Permite que un agente de IA envíe mensajes y archivos por Telegram.
 """
 import logging
 import os
+from pathlib import Path
 
 import httpx
 from dotenv import load_dotenv
@@ -23,8 +24,12 @@ CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 mcp = MCPServer("draco")
 
 
+# ---------------------------------------------------------------------------
+# Funciones normales (fáciles de probar sin la IA)
+# ---------------------------------------------------------------------------
+
 def enviar_mensaje(mensaje: str) -> str:
-    """Envía el mensaje a la API de Telegram (función normal, fácil de probar)."""
+    """Envía un mensaje de texto a la API de Telegram."""
     if not TOKEN or not CHAT_ID:
         return "Error: faltan TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID en el archivo .env"
 
@@ -37,14 +42,52 @@ def enviar_mensaje(mensaje: str) -> str:
     return f"Error de Telegram: {datos.get('description')}"
 
 
+def enviar_documento(ruta: str, descripcion: str = "") -> str:
+    """Sube un archivo a la API de Telegram."""
+    if not TOKEN or not CHAT_ID:
+        return "Error: faltan TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID en el archivo .env"
+
+    archivo = Path(ruta)
+    if not archivo.is_file():
+        return f"Error: no existe el archivo {ruta}"
+    if archivo.stat().st_size > 50 * 1024 * 1024:
+        return "Error: el archivo pesa más de 50 MB (límite de Telegram para bots)"
+
+    url = f"https://api.telegram.org/bot{TOKEN}/sendDocument"
+    with archivo.open("rb") as f:
+        respuesta = httpx.post(
+            url,
+            data={"chat_id": CHAT_ID, "caption": descripcion[:1024]},
+            files={"document": (archivo.name, f)},
+            timeout=120,
+        )
+    datos = respuesta.json()
+
+    if datos.get("ok"):
+        return f"Archivo {archivo.name} enviado correctamente ✅"
+    return f"Error de Telegram: {datos.get('description')}"
+
+
+# ---------------------------------------------------------------------------
+# Herramientas MCP (las que usa la IA)
+# ---------------------------------------------------------------------------
+
 @mcp.tool()
 def enviar_telegram(mensaje: str) -> str:
-    """Envía un mensaje a Camilo por Telegram a través del bot Draco.
-    Úsala para enviar reportes de tareas pendientes o avisos importantes."""
+    """Envía un mensaje de texto a Camilo por Telegram a través del bot Draco.
+    Úsala para enviar reportes de tareas pendientes o avisos importantes.
+    Máximo 4096 caracteres por mensaje: si el texto es más largo, divídelo en varios."""
     return enviar_mensaje(mensaje)
+
+
+@mcp.tool()
+def enviar_archivo(ruta: str, descripcion: str = "") -> str:
+    """Envía un archivo (PDF, Word, Excel, etc.) a Camilo por Telegram.
+    'ruta' es la ruta completa del archivo en la computadora.
+    'descripcion' es un texto corto que acompaña al archivo (máx. 1024 caracteres),
+    por ejemplo: entidad, número de proceso y fecha de cierre."""
+    return enviar_documento(ruta, descripcion)
 
 
 if __name__ == "__main__":
     mcp.run()
-
-    
