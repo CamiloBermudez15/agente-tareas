@@ -9,3 +9,4 @@ __pycache__/
 # Claude Code (configuración local)
 .claude/settings.local.json
 descargas/
+sesiones/
